@@ -5,6 +5,7 @@
 -- Purpose: Store OHLCV data and Ichimoku indicators for a specific symbol
 
 -- Drop existing tables if they exist (for clean setup)
+DROP TABLE IF EXISTS macd_data;
 DROP TABLE IF EXISTS psar_data;
 DROP TABLE IF EXISTS ichimoku_data;
 DROP TABLE IF EXISTS ohlcv_data;
@@ -73,6 +74,23 @@ CREATE TABLE IF NOT EXISTS psar_data (
     UNIQUE(ohlcv_id)
 );
 
+-- Table 4: MACD Data (Calculated MACD indicator)
+CREATE TABLE IF NOT EXISTS macd_data (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ohlcv_id INTEGER NOT NULL,
+    macd_line DECIMAL(20, 8),
+    signal_line DECIMAL(20, 8),
+    macd_histogram DECIMAL(20, 8),
+    fast_period INTEGER,
+    slow_period INTEGER,
+    signal_period INTEGER,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (ohlcv_id) REFERENCES ohlcv_data(id) ON DELETE CASCADE,
+    UNIQUE(ohlcv_id)
+);
+
 -- Metadata table to store symbol-specific information
 CREATE TABLE IF NOT EXISTS metadata (
     key TEXT PRIMARY KEY,
@@ -91,6 +109,8 @@ CREATE INDEX idx_ichimoku_updated ON ichimoku_data(updated_at);
 CREATE INDEX IF NOT EXISTS idx_psar_ohlcv ON psar_data(ohlcv_id);
 CREATE INDEX IF NOT EXISTS idx_psar_trend ON psar_data(psar_trend);
 CREATE INDEX IF NOT EXISTS idx_psar_updated ON psar_data(updated_at);
+CREATE INDEX IF NOT EXISTS idx_macd_ohlcv ON macd_data(ohlcv_id);
+CREATE INDEX IF NOT EXISTS idx_macd_updated ON macd_data(updated_at);
 
 -- Create views for easy access to combined data
 -- View 1: Complete OHLCV and Ichimoku data
@@ -121,7 +141,7 @@ FROM ohlcv_data o
 LEFT JOIN ichimoku_data i ON o.id = i.ohlcv_id
 ORDER BY o.timeframe, o.timestamp DESC;
 
--- View 1b: OHLCV with Ichimoku and PSAR data
+-- View 1b: OHLCV with Ichimoku, PSAR, and MACD data
 CREATE VIEW IF NOT EXISTS ohlcv_with_indicators AS
 SELECT
     o.id,
@@ -147,14 +167,23 @@ SELECT
     p.psar_reversal,
     p.step as psar_step,
     p.max_step as psar_max_step,
+    m.macd_line,
+    m.signal_line,
+    m.macd_histogram,
+    m.fast_period as macd_fast,
+    m.slow_period as macd_slow,
+    m.signal_period as macd_signal,
     o.created_at as ohlcv_created_at,
     i.created_at as ichimoku_created_at,
     i.updated_at as ichimoku_updated_at,
     p.created_at as psar_created_at,
-    p.updated_at as psar_updated_at
+    p.updated_at as psar_updated_at,
+    m.created_at as macd_created_at,
+    m.updated_at as macd_updated_at
 FROM ohlcv_data o
 LEFT JOIN ichimoku_data i ON o.id = i.ohlcv_id
 LEFT JOIN psar_data p ON o.id = p.ohlcv_id
+LEFT JOIN macd_data m ON o.id = m.ohlcv_id
 ORDER BY o.timeframe, o.timestamp DESC;
 
 -- View 2: Latest data per timeframe
@@ -258,6 +287,14 @@ AFTER UPDATE ON psar_data
 FOR EACH ROW
 BEGIN
     UPDATE psar_data SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
+
+-- Trigger to update the updated_at timestamp in macd_data
+CREATE TRIGGER IF NOT EXISTS update_macd_timestamp
+AFTER UPDATE ON macd_data
+FOR EACH ROW
+BEGIN
+    UPDATE macd_data SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;
 
 -- Trigger to update metadata timestamp

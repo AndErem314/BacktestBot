@@ -462,6 +462,54 @@ class DataManager:
             raise
         return {'inserted': inserted, 'updated': updated, 'errors': errors}
 
+    def save_macd_data(self, df: pd.DataFrame) -> Dict[str, int]:
+        """Save MACD indicator data to the database.
+
+        Expects columns: ohlcv_id, macd_line, signal_line, macd_histogram, 
+        optional: fast_period, slow_period, signal_period
+        """
+        if df.empty:
+            return {'inserted': 0, 'updated': 0, 'errors': 0}
+        required_columns = ['ohlcv_id', 'macd_line', 'signal_line', 'macd_histogram']
+        missing = set(required_columns) - set(df.columns)
+        if missing:
+            raise ValueError(f"Missing required columns for MACD save: {missing}")
+        inserted = 0
+        updated = 0
+        errors = 0
+        try:
+            conn = self.get_connection()
+            cur = conn.cursor()
+            for _, row in df.iterrows():
+                try:
+                    cur.execute('''
+                        INSERT OR REPLACE INTO macd_data
+                        (ohlcv_id, macd_line, signal_line, macd_histogram, fast_period, slow_period, signal_period)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    ''', (
+                        int(row['ohlcv_id']),
+                        float(row['macd_line']) if pd.notna(row['macd_line']) else None,
+                        float(row['signal_line']) if pd.notna(row['signal_line']) else None,
+                        float(row['macd_histogram']) if pd.notna(row['macd_histogram']) else None,
+                        int(row.get('fast_period')) if row.get('fast_period') is not None else None,
+                        int(row.get('slow_period')) if row.get('slow_period') is not None else None,
+                        int(row.get('signal_period')) if row.get('signal_period') is not None else None,
+                    ))
+                    if cur.rowcount > 0:
+                        inserted += 1
+                except sqlite3.Error as e:
+                    self.logger.error(f"Error saving MACD data: {e}")
+                    errors += 1
+            if not self._transaction_active:
+                conn.commit()
+            self.logger.info(f"MACD data saved for {self.symbol}: {inserted} records, {errors} errors")
+        except Exception as e:
+            self.logger.error(f"Failed to save MACD data: {e}")
+            if not self._transaction_active:
+                conn.rollback()
+            raise
+        return {'inserted': inserted, 'updated': updated, 'errors': errors}
+
     def get_latest_signals(self, timeframe: str = None, limit: int = 10) -> pd.DataFrame:
         """
         Get the latest Ichimoku trading signals.

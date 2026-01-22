@@ -59,8 +59,8 @@ class WorkflowCLI:
         """Display the main menu."""
         print(f"\n{Colors.BOLD}=== MAIN MENU ==={Colors.ENDC}")
         print(f"{Colors.GREEN}1.{Colors.ENDC} Collect historical data")
-        print(f"{Colors.GREEN}2.{Colors.ENDC} Compute Ichimoku")
-        print(f"{Colors.GREEN}3.{Colors.ENDC} Backtest Ichimoku Strategy")
+        print(f"{Colors.GREEN}2.{Colors.ENDC} Calculate all indicators")
+        print(f"{Colors.GREEN}3.{Colors.ENDC} Run the Backtest")
         print(f"{Colors.GREEN}0.{Colors.ENDC} Exit")
         print("-"*30)
     

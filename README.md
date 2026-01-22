@@ -4,10 +4,11 @@ A Python-based assistant that implements Ichimoku Cloud trading strategies with 
 
 ## Overview
 
-This assistant focuses on the Ichimoku Cloud indicator system to generate trading signals for cryptocurrency pairs (BTC/USDT, ETH/USDT, SOL/USDT). It features:
+This assistant focuses on the Ichimoku Cloud indicator system, with Parabolic SAR (PSAR) used as a trend confirmation filter for entries, to generate trading signals for cryptocurrency pairs (BTC/USDT, ETH/USDT, SOL/USDT). It features:
 
 - Historical data collection from cryptocurrency exchanges
 - Ichimoku Cloud indicator calculations and signal generation
+- Parabolic SAR (PSAR) trend confirmation integrated with Ichimoku (configurable step/max_step)
 - Comprehensive backtesting framework
 - Multiple pre-configured trading strategies
 - LLM-powered strategy optimization (OpenAI and Google Gemini)
@@ -18,7 +19,7 @@ This assistant focuses on the Ichimoku Cloud indicator system to generate tradin
 ## Project Structure
 
 ```
-Trading_Bot/
+BacktestBot/
 │
 ├── app.py                 # Main entry point - CLI interface
 ├── requirements.txt       # Python dependencies
@@ -108,8 +109,8 @@ The project uses SQLite databases with a per-symbol architecture. Each cryptocur
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/Trading_Bot.git
-cd Trading_Bot
+git clone https://github.com/yourusername/BacktestBot.git
+cd BacktestBot
 ```
 
 2. Create a virtual environment:

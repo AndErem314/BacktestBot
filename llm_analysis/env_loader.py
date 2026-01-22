@@ -28,10 +28,10 @@ def _load_env_near_project_root():
     if not _HAS_DOTENV:
         return
     here = Path(__file__).resolve()
-    # Candidates: current CWD, project root (Trading_Bot), and its parent as a fallback
+    # Candidates: current CWD, project root (BacktestBot), and its parent as a fallback
     candidates = [
         Path.cwd() / '.env',
-        here.parents[1] / '.env',   # .../Trading_Bot/.env
+        here.parents[1] / '.env',   # .../BacktestBot/.env
         here.parents[2] / '.env',   # .../Python/.env (fallback)
     ]
     for p in candidates:

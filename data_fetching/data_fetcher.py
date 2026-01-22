@@ -165,7 +165,7 @@ class DataFetcher:
         
         Args:
             symbol: Trading pair (optional, uses instance symbol if not provided)
-            timeframe: Timeframe (1h, 4h, or 1d)
+            timeframe: Timeframe (4h or 1d)
             start_time: Start timestamp (optional)
             force_full_refresh: If True, fetch all data from start_time
             
@@ -178,8 +178,8 @@ class DataFetcher:
                 symbol = self.symbol
             
             # Validate timeframe
-            if timeframe not in ['1h', '4h', '1d']:
-                raise ValueError(f"Invalid timeframe: {timeframe}. Must be 1h, 4h, or 1d")
+            if timeframe not in ['4h', '1d']:
+                raise ValueError(f"Invalid timeframe: {timeframe}. Must be 4h or 1d")
             
             if force_full_refresh and start_time:
                 # Fetch all historical data from start_time
@@ -223,7 +223,7 @@ class DataFetcher:
         
         Args:
             symbol: Trading pair (optional, uses instance symbol)
-            timeframe: Timeframe (1h, 4h, or 1d)
+            timeframe: Timeframe (4h or 1d)
             start_time: Range start timestamp
             end_time: Range end timestamp
             

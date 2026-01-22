@@ -196,11 +196,10 @@ class WorkflowCLI:
 
         # Select timeframe
         print("\nSelect timeframe:")
-        print(f"{Colors.GREEN}1.{Colors.ENDC} 1h")
-        print(f"{Colors.GREEN}2.{Colors.ENDC} 4h")
-        print(f"{Colors.GREEN}3.{Colors.ENDC} 1d")
-        tf_choice = self.get_user_choice("Option", ['1','2','3'])
-        timeframe = {'1':'1h','2':'4h','3':'1d'}[tf_choice]
+        print(f"{Colors.GREEN}1.{Colors.ENDC} 4h")
+        print(f"{Colors.GREEN}2.{Colors.ENDC} 1d")
+        tf_choice = self.get_user_choice("Option", ['1','2'])
+        timeframe = {'1':'4h','2':'1d'}[tf_choice]
 
         # Optional start date
         start_date = self.get_user_input("Start date (YYYY-MM-DD) or empty for all", default="", input_type=str)

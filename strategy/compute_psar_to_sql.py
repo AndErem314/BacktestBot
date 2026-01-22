@@ -19,7 +19,7 @@ from data_fetching.data_manager import DataManager
 from strategy.psar_indicator import compute_psar
 
 SYMBOLS = ["BTC", "ETH", "SOL"]
-TIMEFRAMES = ["1h", "4h", "1d"]
+TIMEFRAMES = ["4h", "1d"]
 
 
 def compute_for_symbol(symbol: str, step: float = 0.02, max_step: float = 0.2) -> Dict[str, Dict[str, int]]:

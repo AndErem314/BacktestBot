@@ -1,0 +1,38 @@
+strategies:
+  full_confirmation_tk_exit_default_with_3%_sl_llm_btc_4h:
+    name: Full Confirmation TK Exit default with 3% SL
+    description: All conditions + Chikou confirmations, exit on TK cross down
+    enabled: true
+    timeframes:
+    - 1h
+    - 4h
+    - 1d
+    symbols:
+    - BTC/USDT
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
+    ichimoku_parameters:
+      tenkan_period: 7
+      kijun_period: 20
+      senkou_b_period: 50
+      chikou_offset: 20
+      senkou_offset: 20
+    risk_management:
+      stop_loss_pct: 2.0
+      take_profit_pct: 5.0
+      close_on_sell_signal: true
+      trailing_stop: false
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 3.0
+    position_sizing:
+      method: volatility
+      fixed_size: 1000

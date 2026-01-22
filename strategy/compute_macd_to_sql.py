@@ -19,7 +19,7 @@ from data_fetching.data_manager import DataManager
 from strategy.macd_indicator import compute_macd
 
 SYMBOLS = ["BTC", "ETH", "SOL"]
-TIMEFRAMES = ["1h", "4h", "1d"]
+TIMEFRAMES = ["4h", "1d"]
 
 
 def compute_for_symbol(symbol: str, fast: int = 12, slow: int = 26, signal: int = 9) -> Dict[str, Dict[str, int]]:

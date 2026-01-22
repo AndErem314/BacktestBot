@@ -103,7 +103,7 @@ class DataManager:
         Args:
             df: DataFrame with OHLCV data (timestamp as index)
             symbol: Trading pair symbol (optional, uses instance symbol if not provided)
-            timeframe: Timeframe (1h, 4h, or 1d)
+            timeframe: Timeframe (4h or 1d)
             
         Returns:
             Dict with 'inserted', 'duplicates', 'errors' counts
@@ -116,8 +116,8 @@ class DataManager:
             symbol = self.symbol_pair
         
         # Validate timeframe
-        if timeframe not in ['1h', '4h', '1d']:
-            raise ValueError(f"Invalid timeframe: {timeframe}. Must be 1h, 4h, or 1d")
+        if timeframe not in ['4h', '1d']:
+            raise ValueError(f"Invalid timeframe: {timeframe}. Must be 4h or 1d")
         
         # Prepare data
         df_copy = df.copy()

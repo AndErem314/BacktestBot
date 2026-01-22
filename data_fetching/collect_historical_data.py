@@ -21,7 +21,7 @@ def collect_all_historical_data_for_all_pairs(start_date: str = '2020-08-01', sy
     # Symbol shorts and timeframes
     if symbols is None:
         symbols = ['BTC', 'ETH', 'SOL']  # All supported symbols
-    timeframes = ['1h', '4h', '1d']
+    timeframes = ['4h', '1d']
 
     print(f"📊 Starting historical data collection from {start_date}")
     print(f"🎯 Symbols: {symbols}")

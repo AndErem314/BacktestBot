@@ -3,7 +3,7 @@ strategies:
     name: "Full Confirmation TK Exit default with 3% SL"
     description: "All conditions + Chikou confirmations, exit on TK cross down"
     enabled: true
-    timeframes: [ "1h", "4h", "1d" ]
+    timeframes: [ "4h", "1d" ]
     symbols: [ "BTC/USDT" ]
     signal_conditions:
       buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
@@ -31,7 +31,7 @@ strategies:
     name: "Full Confirmation TK Exit modified with 3% SL"
     description: "All conditions + Chikou confirmations, exit on TK cross down"
     enabled: true
-    timeframes: [ "1h", "4h", "1d" ]
+    timeframes: [ "4h", "1d" ]
     symbols: ["BTC/USDT"]
     signal_conditions:
       buy_conditions: ["PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice"]
@@ -59,7 +59,7 @@ strategies:
     name: "Full Confirmation TK Exit SL 3%"
     description: "All conditions + Chikou confirmations, exit on TK cross down"
     enabled: true
-    timeframes: [ "1h", "4h" ]
+    timeframes: [ "4h", "1d" ]
     symbols: [ "BTC/USDT" ]
     signal_conditions:
       buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
@@ -87,7 +87,7 @@ strategies:
     name: "Full Confirmation TK Exit SL 4% with position size 90%"
     description: "All conditions + Chikou confirmations, exit on TK cross down"
     enabled: true
-    timeframes: [ "1h", "4h" ]
+    timeframes: [ "4h", "1d" ]
     symbols: [ "BTC/USDT" ]
     signal_conditions:
       buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
@@ -115,7 +115,7 @@ strategies:
     name: "Full Confirmation TK Exit SL 3% with position size 90%"
     description: "All conditions + Chikou confirmations, exit on TK cross down"
     enabled: true
-    timeframes: [ "1h", "4h" ]
+    timeframes: [ "4h", "1d" ]
     symbols: [ "BTC/USDT" ]
     signal_conditions:
       buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
@@ -143,7 +143,7 @@ strategies:
     name: "Full Confirmation TK Exit with modified parameters"
     description: "All conditions + Chikou confirmations, exit on TK cross down"
     enabled: true
-    timeframes: [ "1h", "4h" ]
+    timeframes: [ "4h", "1d" ]
     symbols: [ "BTC/USDT" ]
     signal_conditions:
       buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]

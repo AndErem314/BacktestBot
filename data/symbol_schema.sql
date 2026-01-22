@@ -20,7 +20,7 @@ CREATE TABLE ohlcv_data (
     low DECIMAL(20, 8) NOT NULL CHECK(low > 0),
     close DECIMAL(20, 8) NOT NULL CHECK(close > 0),
     volume DECIMAL(20, 8) NOT NULL CHECK(volume >= 0),
-    timeframe TEXT NOT NULL CHECK(timeframe IN ('1h', '4h', '1d')),
+    timeframe TEXT NOT NULL CHECK(timeframe IN ('4h', '1d')),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     -- Ensure data integrity

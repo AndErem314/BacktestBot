@@ -84,7 +84,7 @@ The project uses SQLite databases with a per-symbol architecture. Each cryptocur
    - `timestamp`: Date/time of the candle
    - `open`, `high`, `low`, `close`: Price data
    - `volume`: Trading volume
-   - `timeframe`: 1h, 4h, or 1d
+   - `timeframe`: 4h or 1d
 
 2. **ichimoku_data** - Calculated Ichimoku indicators
    - `id`: Primary key
@@ -181,7 +181,7 @@ The main menu provides three options:
    - Select option 3
    - Choose a strategy from the available list
    - Select symbol (BTC, ETH, or SOL)
-   - Select timeframe (1h, 4h, or 1d)
+   - Select timeframe (4h or 1d)
    - Optionally set a start date
    - Review generated reports in the `reports/` directory
 

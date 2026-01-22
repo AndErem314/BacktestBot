@@ -22,8 +22,8 @@ from strategy.ichimoku_strategy import (
     IchimokuStrategyConfig,
 )
 
-SYMBOLS = ["BTC", "ETH", "SOL"]
-TIMEFRAMES = ["1h", "4h", "1d"]
+SYMBOLS = ['BTC', 'ETH', 'SOL']
+TIMEFRAMES = ['4h', '1d']
 
 
 def derive_additional_fields(df: pd.DataFrame) -> pd.DataFrame:

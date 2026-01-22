@@ -1,10 +1,10 @@
-# Ichimoku Cloud Trading Assistant
+# BacktestBot
 
-A Python-based assistant that implements Ichimoku Cloud trading strategies with fast backtesting, PDF reporting, and LLM-powered optimization that can auto-generate updated strategy YAMLs.
+A Python-based cryptocurrency backtesting system for testing technical indicator strategies with fast backtesting, PDF reporting, and LLM-powered optimization that can auto-generate updated strategy YAMLs.
 
 ## Overview
 
-This assistant focuses on the Ichimoku Cloud indicator system, with Parabolic SAR (PSAR) used as a trend confirmation filter for entries, to generate trading signals for cryptocurrency pairs (BTC/USDT, ETH/USDT, SOL/USDT). It features:
+BacktestBot is a backtesting platform designed to find optimal combinations of technical indicators and their parameters. It currently supports Ichimoku Cloud indicators with Parabolic SAR (PSAR) as a trend confirmation filter, generating trading signals for cryptocurrency pairs (BTC/USDT, ETH/USDT, SOL/USDT). It features:
 
 - Historical data collection from cryptocurrency exchanges
 - Ichimoku Cloud indicator calculations and signal generation

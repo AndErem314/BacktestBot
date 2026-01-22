@@ -4,11 +4,13 @@ A Python-based cryptocurrency backtesting system for testing technical indicator
 
 ## Overview
 
-BacktestBot is a backtesting platform designed to find optimal combinations of technical indicators and their parameters. It currently supports Ichimoku Cloud indicators with Parabolic SAR (PSAR) as a trend confirmation filter, generating trading signals for cryptocurrency pairs (BTC/USDT, ETH/USDT, SOL/USDT). It features:
+BacktestBot is a backtesting platform designed to find optimal combinations of technical indicators and their parameters. It currently supports Ichimoku Cloud indicators with Parabolic SAR (PSAR) as a trend confirmation filter and MACD for momentum analysis, generating trading signals for cryptocurrency pairs (BTC/USDT, ETH/USDT, SOL/USDT). It features:
 
 - Historical data collection from cryptocurrency exchanges
+- Multiple technical indicators: Ichimoku Cloud, Parabolic SAR (PSAR), and MACD
 - Ichimoku Cloud indicator calculations and signal generation
-- Parabolic SAR (PSAR) trend confirmation integrated with Ichimoku (configurable step/max_step)
+- PSAR trend confirmation integrated with Ichimoku (configurable step/max_step)
+- MACD momentum indicator for convergence/divergence analysis
 - Comprehensive backtesting framework
 - Multiple pre-configured trading strategies
 - LLM-powered strategy optimization (OpenAI and Google Gemini)
@@ -46,7 +48,9 @@ BacktestBot/
 ├── strategy/            # Trading strategy implementation
 │   ├── compute_ichimoku_to_sql.py  # Ichimoku calculations
 │   ├── compute_psar_to_sql.py      # Parabolic SAR calculations and persistence
+│   ├── compute_macd_to_sql.py      # MACD calculations and persistence
 │   ├── psar_indicator.py           # PSAR computation utility
+│   ├── macd_indicator.py           # MACD computation utility
 │   └── ichimoku_strategy.py        # Strategy logic
 │
 ├── backtesting/         # Backtesting engine
@@ -95,13 +99,29 @@ The project uses SQLite databases with a per-symbol architecture. Each cryptocur
    - `trend_strength`: Strong bullish to strong bearish
    - `tk_cross`: Tenkan/Kijun cross signals
 
-3. **metadata** - Database information
+3. **psar_data** - Calculated Parabolic SAR indicator
+   - `id`: Primary key
+   - `ohlcv_id`: Foreign key to ohlcv_data
+   - `psar`: SAR value
+   - `psar_trend`: Trend direction (1=up, -1=down)
+   - `psar_reversal`: Reversal flag (0/1)
+   - `step`, `max_step`: PSAR parameters
+
+4. **macd_data** - Calculated MACD indicator
+   - `id`: Primary key
+   - `ohlcv_id`: Foreign key to ohlcv_data
+   - `macd_line`: MACD line (fast EMA - slow EMA)
+   - `signal_line`: Signal line (EMA of MACD line)
+   - `macd_histogram`: Histogram (MACD line - signal line)
+   - `fast_period`, `slow_period`, `signal_period`: MACD parameters
+
+5. **metadata** - Database information
    - Key-value pairs for database metadata
 
 ### Views
 
 - `ohlcv_ichimoku_view`: Combined OHLCV and Ichimoku data
-- `ohlcv_with_indicators`: Combined OHLCV with Ichimoku + PSAR (if present)
+- `ohlcv_with_indicators`: Combined OHLCV with Ichimoku, PSAR, and MACD data
 - `latest_data_view`: Summary of available data per timeframe
 - `ichimoku_signals_view`: Trading signals based on Ichimoku
 
@@ -175,6 +195,16 @@ python strategy/compute_psar_to_sql.py
 
 Defaults: step=0.02, max_step=0.2 (configurable in `strategy/psar_indicator.py`). Data loaders automatically join PSAR where available; no extra config needed.
 
+### Computing MACD
+
+MACD (Moving Average Convergence Divergence) is persisted per candle and available for momentum analysis. To compute and save MACD for all symbols/timeframes:
+
+```bash
+python strategy/compute_macd_to_sql.py
+```
+
+Defaults: fast=12, slow=26, signal=9 (configurable in `strategy/macd_indicator.py`). Data loaders automatically join MACD where available; no extra config needed.
+
 3. **LLM Optimization** (Optional):
    - After backtesting, choose to generate the LLM optimization report
    - Select prompt variant (analyst or risk-focused)
@@ -182,7 +212,9 @@ Defaults: step=0.02, max_step=0.2 (configurable in `strategy/psar_indicator.py`)
    - The PDF starts with a usage header showing provider, model, and token counts
    - A YAML with optimized settings is also written to config/llm_strategy_config/
 
-## Parabolic SAR (PSAR)
+## Technical Indicators
+
+### Parabolic SAR (PSAR)
 
 - Persistence (table `psar_data`):
   - `ohlcv_id` → FK to `ohlcv_data`
@@ -190,11 +222,25 @@ Defaults: step=0.02, max_step=0.2 (configurable in `strategy/psar_indicator.py`)
   - `step`, `max_step` recorded for traceability
 - Backtesting usage:
   - PSAR acts as a trend confirmation for entries: LONG requires uptrend; SHORT requires downtrend.
-  - Enforcement avoids look-ahead (uses prior closed bar’s PSAR state when evaluating entries).
+  - Enforcement avoids look-ahead (uses prior closed bar's PSAR state when evaluating entries).
   - Metrics surfaced in reports: raw vs confirmed vs filtered signals and confirmation rates.
 - Strategy config (optional explicit use):
   - You may add `PSARUptrend` (and `PSARDowntrend` for shorts) to `signal_conditions` to make the dependency explicit.
   - Even without adding these, the backtester applies PSAR confirmation implicitly.
+
+### MACD (Moving Average Convergence Divergence)
+
+- Persistence (table `macd_data`):
+  - `ohlcv_id` → FK to `ohlcv_data`
+  - `macd_line` (float): Fast EMA - Slow EMA
+  - `signal_line` (float): EMA of MACD line
+  - `macd_histogram` (float): MACD line - Signal line
+  - `fast_period`, `slow_period`, `signal_period` recorded for traceability
+- Usage:
+  - MACD provides momentum analysis and trend strength indication
+  - Crossovers between MACD line and signal line can indicate buy/sell opportunities
+  - Histogram divergence can signal potential trend reversals
+  - Default parameters: fast=12, slow=26, signal=9 (standard settings)
 
 ## Trading Strategies
 

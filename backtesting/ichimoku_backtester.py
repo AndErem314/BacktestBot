@@ -622,7 +622,7 @@ class IchimokuBacktester(BaseBacktester):
         total_trades = len(trades)
         winning_trades = len(trades_df[trades_df['net_pnl'] > 0])
         losing_trades = len(trades_df[trades_df['net_pnl'] <= 0])
-        win_rate = winning_trades / total_trades if total_trades > 0 else 0
+        win_rate = winning_trades / total_trades if total_trades > 0 else 0  # Returns decimal (0-1)
         
         # Calculate profit factor
         gross_profit = trades_df[trades_df['net_pnl'] > 0]['net_pnl'].sum()
@@ -644,7 +644,7 @@ class IchimokuBacktester(BaseBacktester):
             'total_trades': total_trades,
             'winning_trades': winning_trades,
             'losing_trades': losing_trades,
-            'win_rate': win_rate * 100,
+            'win_rate': win_rate,  # Already decimal (0-1), don't multiply by 100
             'profit_factor': profit_factor,
             'total_return_pct': total_return_pct,
             'max_drawdown_pct': max_drawdown_pct,

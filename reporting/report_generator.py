@@ -318,13 +318,18 @@ Supports PDF and data export formats.
             # This function will emit one or two pages depending on available directions.
             self._create_trade_details_page(pdf, results)
             
-            # Save PDF metadata
-            d = pdf.infodict()
-            d['Title'] = f'Backtest Report - {results.get("strategy_config", {}).get("name", "Strategy")}'
-            d['Author'] = 'Trading Bot Analytics'
-            d['Subject'] = 'Trading Strategy Backtest Report'
-            d['Keywords'] = 'Trading, Backtest, Ichimoku, Performance'
-            d['CreationDate'] = datetime.now()
+        # Save PDF metadata
+        d = pdf.infodict()
+        strategy_config = results.get('strategy_config', {})
+        strategy_name = strategy_config.get('name', 'Strategy')
+        asset_class = strategy_config.get('asset_class', 'crypto').upper()
+        symbol = strategy_config.get('symbol', 'N/A')
+        
+        d['Title'] = f'Backtest Report - {strategy_name} ({asset_class})'
+        d['Author'] = 'Trading Bot Analytics'
+        d['Subject'] = f'Trading Strategy Backtest Report - {asset_class} - {symbol}'
+        d['Keywords'] = f'Trading, Backtest, Ichimoku, Performance, {asset_class}'
+        d['CreationDate'] = datetime.now()
             
         return str(pdf_path)
         
@@ -338,13 +343,16 @@ Supports PDF and data export formats.
         summary = self.create_executive_summary(metrics)
         
         # Strategy info
-        strategy_name = results.get('strategy_config', {}).get('name', 'Ichimoku Strategy')
-        trading_pair = results.get('strategy_config', {}).get('symbol', 'N/A')
-        timeframe = results.get('strategy_config', {}).get('timeframe', 'N/A')
+        strategy_config = results.get('strategy_config', {})
+        strategy_name = strategy_config.get('name', 'Ichimoku Strategy')
+        trading_pair = strategy_config.get('symbol', 'N/A')
+        timeframe = strategy_config.get('timeframe', 'N/A')
+        asset_class = strategy_config.get('asset_class', 'crypto').upper()
         
         # Create text content
         text_content = f"""
 Strategy: {strategy_name}
+Asset Class: {asset_class}
 Trading Pair: {trading_pair}
 Timeframe: {timeframe}
 Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}

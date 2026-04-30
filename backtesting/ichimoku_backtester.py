@@ -295,7 +295,7 @@ class IchimokuBacktester(BaseBacktester):
         """
         Return (base_ok, confirmed_ok) for entry on this bar.
         base_ok: only configured signal conditions
-        confirmed_ok: base_ok AND PSAR confirmation if PSAR columns present
+        confirmed_ok: base_ok AND PSAR confirmation if PSAR columns present (crypto only)
         """
         sc = self.strategy_config.get('signal_conditions', {})
         if side == PositionSide.LONG:
@@ -310,14 +310,17 @@ class IchimokuBacktester(BaseBacktester):
         
         base_ok = self._check_conditions(row, conditions, logic)
         
-        # PSAR confirmation (crypto-specific)
-        if side == PositionSide.LONG:
-            psar_ok = ('psar_uptrend' in row and bool(row['psar_uptrend'])) or ('psar_trend' in row and row['psar_trend'] == 1)
-        else:
-            psar_ok = ('psar_downtrend' in row and bool(row['psar_downtrend'])) or ('psar_trend' in row and row['psar_trend'] == -1)
+        # PSAR confirmation (crypto-specific only)
+        if self.asset_class == 'crypto':
+            if side == PositionSide.LONG:
+                psar_ok = ('psar_uptrend' in row and bool(row['psar_uptrend'])) or ('psar_trend' in row and row['psar_trend'] == 1)
+            else:
+                psar_ok = ('psar_downtrend' in row and bool(row['psar_downtrend'])) or ('psar_trend' in row and row['psar_trend'] == -1)
+            
+            if ('psar_uptrend' in row) or ('psar_trend' in row):
+                return base_ok, (base_ok and psar_ok)
         
-        if ('psar_uptrend' in row) or ('psar_trend' in row):
-            return base_ok, (base_ok and psar_ok)
+        # For commodities or when PSAR not available: confirmed = base
         return base_ok, base_ok
     
     def _get_signal_mapping(self) -> Dict[str, str]:

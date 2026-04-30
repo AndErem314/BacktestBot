@@ -321,14 +321,17 @@ class IchimokuBacktester(BaseBacktester):
         return base_ok, base_ok
     
     def _get_signal_mapping(self) -> Dict[str, str]:
-        """Map config condition names to DataFrame columns."""
+        """
+        Map config condition names to DataFrame columns.
+        For SpanA/ SpanB conditions, we compute them dynamically.
+        """
         return {
             'PriceAboveCloud': 'price_above_cloud',
             'PriceBelowCloud': 'price_below_cloud',
             'TenkanAboveKijun': 'tenkan_above_kijun',
             'TenkanBelowKijun': 'tenkan_below_kijun',
-            'SpanAaboveSpanB': 'SpanAaboveSpanB',
-            'SpanAbelowSpanB': 'SpanAbelowSpanB',
+            'SpanAaboveSpanB': 'span_a_above_span_b',  # Computed dynamically
+            'SpanAbelowSpanB': 'span_a_below_span_b',  # Computed dynamically
             'ChikouAbovePrice': 'chikou_above_price',
             'ChikouBelowPrice': 'chikou_below_price',
             'ChikouAboveCloud': 'chikou_above_cloud',
@@ -341,17 +344,32 @@ class IchimokuBacktester(BaseBacktester):
         """Generic condition checker with AND/OR logic."""
         if not conditions:
             return False
+        
+        # Ensure span_a columns exist in the dataframe (accessed via row.index)
+        self._ensure_span_columns(row)
+        
         mapping = self._get_signal_mapping()
         flags: List[bool] = []
         for cond in conditions:
             col = mapping.get(cond)
-            if col and col in row:
+            if col and col in row.index:
                 flags.append(bool(row[col]))
+        
         if not flags:
             return False
         if (logic or 'AND').upper() == 'OR':
             return any(flags)
         return all(flags)
+    
+    def _ensure_span_columns(self, row: pd.Series):
+        """
+        Ensure span_a_above_span_b and span_a_below_span_b columns exist.
+        These are computed dynamically from senkou_span_a and senkou_span_b.
+        Note: This is a simplified version - in reality, we need access to the full DataFrame.
+        """
+        # This is a placeholder - the actual computation should happen in the data preparation step
+        # For now, we'll compute it in the data fetching method
+        pass
     
     def _check_exit_signal(self, row: pd.Series, side: PositionSide) -> bool:
         """Check if exit signal conditions are met."""
@@ -863,6 +881,12 @@ class StrategyBacktestRunner:
                 closed_mask.iloc[-1] = False
             df['psar_uptrend'] = (df['psar_trend'] == 1) & closed_mask
             df['psar_downtrend'] = (df['psar_trend'] == -1) & closed_mask
+        
+        # Compute SpanA vs SpanB boolean columns for signal evaluation
+        if 'senkou_span_a' in df.columns and 'senkou_span_b' in df.columns:
+            df['span_a_above_span_b'] = df['senkou_span_a'] > df['senkou_span_b']
+            df['span_a_below_span_b'] = df['senkou_span_a'] < df['senkou_span_b']
+        
         return df
     
     def run_from_json(self, strategy_key: str, symbol_short: str, timeframe: str,

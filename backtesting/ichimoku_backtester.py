@@ -588,8 +588,11 @@ class IchimokuBacktester(BaseBacktester):
         if not self.trades:
             return self._empty_results()
         
-        # Get metrics dict from calculate_metrics
-        metrics = super().calculate_metrics(self.trades)
+        # Get metrics dict from calculate_metrics (call on self, not super())
+        metrics = self.calculate_metrics(self.trades)
+        
+        if not metrics:
+            return self._empty_results()
         
         # Create BacktestResult from metrics
         return BacktestResult(

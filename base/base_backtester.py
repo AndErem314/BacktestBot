@@ -75,7 +75,7 @@ class BaseBacktester(ABC):
         # Trading state
         self.initial_capital = 0.0
         self.cash = 0.0
-        self.positions: List[Dict] = []
+        self.positions: Dict[str, Dict] = {}  # symbol -> position dict
         self.trades: List[Trade] = []
         self.equity_curve: List[Dict] = []
         

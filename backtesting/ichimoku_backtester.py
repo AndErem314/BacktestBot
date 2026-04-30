@@ -588,7 +588,24 @@ class IchimokuBacktester(BaseBacktester):
         if not self.trades:
             return self._empty_results()
         
-        return super().calculate_metrics(self.trades)
+        # Get metrics dict from calculate_metrics
+        metrics = super().calculate_metrics(self.trades)
+        
+        # Create BacktestResult from metrics
+        return BacktestResult(
+            total_trades=metrics.get('total_trades', 0),
+            winning_trades=metrics.get('winning_trades', 0),
+            losing_trades=metrics.get('losing_trades', 0),
+            total_return_pct=metrics.get('total_return_pct', 0.0),
+            win_rate=metrics.get('win_rate', 0.0),
+            profit_factor=metrics.get('profit_factor', 0.0),
+            max_drawdown_pct=metrics.get('max_drawdown_pct', 0.0),
+            sharpe_ratio=metrics.get('sharpe_ratio', 0.0),
+            trades=self.trades,
+            equity_curve=pd.DataFrame(self.equity_curve) if self.equity_curve else pd.DataFrame(),
+            metrics=metrics,
+            psar_stats=self._psar_stats if hasattr(self, '_psar_stats') else None
+        )
     
     def calculate_metrics(self, trades: List[Trade]) -> Dict[str, float]:
         """Implement abstract method from BaseBacktester."""

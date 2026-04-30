@@ -681,18 +681,23 @@ class IchimokuBacktester(BaseBacktester):
 # Strategy JSON Integration and utilities
 class StrategyBacktestRunner:
     """
-    Helper class to run backtests from strategy JSON configurations.
+    Helper class to run backtests from strategy JSON/YAML configurations.
     Updated to work with refactored IchimokuBacktester.
+    Handles both crypto and commodity asset classes.
     """
     
-    def __init__(self, backtester: IchimokuBacktester):
+    def __init__(self, backtester: Optional[IchimokuBacktester] = None):
+        """
+        Initialize runner. If backtester is not provided, it will be created
+        dynamically based on the strategy's asset_class.
+        """
         self.backtester = backtester
     
     def run_strategy_backtest(self, strategy_config: Dict,
                               data: pd.DataFrame,
                               initial_capital: float = 10000.0) -> BacktestResult:
         """
-        Run backtest for a strategy from JSON configuration.
+        Run backtest for a strategy from JSON/YAML configuration.
         
         Args:
             strategy_config: Strategy configuration from JSON/YAML
@@ -707,6 +712,14 @@ class StrategyBacktestRunner:
         # Validate strategy configuration
         if not self._validate_strategy_config(strategy_config):
             raise ValueError("Invalid strategy configuration")
+        
+        # Determine asset class from strategy config (default to 'crypto')
+        asset_class = strategy_config.get('asset_class', 'crypto')
+        
+        # Create or update backtester based on asset_class
+        if self.backtester is None or self.backtester.asset_class != asset_class:
+            logger.info(f"Creating new backtester for asset_class: {asset_class}")
+            self.backtester = IchimokuBacktester(asset_class=asset_class)
         
         # Run backtest using refactored interface
         result = self.backtester.run_backtest_with_data(

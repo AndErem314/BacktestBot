@@ -1,32 +1,57 @@
 # BacktestBot
 
-A Python-based cryptocurrency backtesting system for testing technical indicator strategies with fast backtesting, PDF reporting, and LLM-powered optimization that can auto-generate updated strategy YAMLs.
+A Python-based multi-asset backtesting system for testing technical indicator strategies with fast backtesting, PDF reporting, and LLM-powered optimization that can auto-generate updated strategy YAMLs. Supports both cryptocurrency and commodity markets.
 
 ## Overview
 
-BacktestBot is a backtesting platform designed to find optimal combinations of technical indicators and their parameters. It currently supports Ichimoku Cloud indicators with Parabolic SAR (PSAR) as a trend confirmation filter and MACD for momentum analysis, generating trading signals for cryptocurrency pairs (BTC/USDT, ETH/USDT, SOL/USDT). It features:
+BacktestBot is a backtesting platform designed to find optimal combinations of technical indicators and their parameters. It currently supports Ichimoku Cloud indicators with Parabolic SAR (PSAR) as a trend confirmation filter and MACD for momentum analysis, generating trading signals for cryptocurrency pairs (BTC/USDT, ETH/USDT, SOL/USDT) and commodities (Gold, Crude Oil). It features:
 
-- Historical data collection from cryptocurrency exchanges
+- Historical data collection from cryptocurrency exchanges (CCXT) and Yahoo Finance (commodities)
 - Multiple technical indicators: Ichimoku Cloud, Parabolic SAR (PSAR), and MACD
 - Ichimoku Cloud indicator calculations and signal generation
 - PSAR trend confirmation integrated with Ichimoku (configurable step/max_step)
 - MACD momentum indicator for convergence/divergence analysis
-- Comprehensive backtesting framework
+- Comprehensive backtesting framework with modular Abstract Base Classes (ABC) architecture
 - Multiple pre-configured trading strategies
 - LLM-powered strategy optimization (OpenAI and Google Gemini)
 - Auto-generated optimized YAML strategy configs from LLM suggestions
 - Detailed reporting with visualizations (multi-page PDF)
 - Token usage accounting in LLM PDFs (provider, model, prompt/output token counts)
+- Unified SQLite data storage for both crypto and commodity data
+
+## Refactoring: Modular Architecture
+
+The project has been refactored to a modular, asset-class-agnostic architecture using Abstract Base Classes (ABCs). This allows easy extension to new asset classes without modifying the core backtesting engine.
+
+### Base Package (`base/`)
+
+Defines abstract interfaces for all core components:
+
+- `BaseDataHandler`: Abstract interface for data fetching and persistence (CCXT for crypto, Yahoo Finance for commodities)
+- `BaseStrategy`: Abstract interface for strategy logic (calculate_indicators, generate_entry/exit_signals)
+- `BaseBacktester`: Abstract interface for backtesting engine (trade simulation, commission, slippage, position sizing)
+
+### Implementations
+
+- `CommodityDataHandler` (in `data_fetching/commodity_data_handler.py`): Yahoo Finance data fetching and SQLite persistence for commodities.
+- `IchimokuBacktester` (in `backtesting/ichimoku_backtester.py`): Refactored to inherit from `BaseBacktester`, supports both crypto and commodity asset classes.
 
 ## Project Structure
 
 ```
 BacktestBot/
+
 │
 ├── app.py                 # Main entry point - CLI interface
 ├── requirements.txt       # Python dependencies
 ├── .env                  # Environment variables (API keys)
 ├── .gitignore           # Git ignore file
+│
+├── base/                # Abstract Base Classes (new)
+│   ├── __init__.py
+│   ├── base_data_handler.py
+│   ├── base_strategy.py
+│   └── base_backtester.py
 │
 ├── config/              # Strategy configurations
 │   ├── strategies.yaml              # Canonical strategy definitions
@@ -36,14 +61,17 @@ BacktestBot/
 │   ├── symbol_schema.sql    # Database schema definition
 │   ├── trading_data_BTC.db  # Bitcoin historical data
 │   ├── trading_data_ETH.db  # Ethereum historical data
-│   └── trading_data_SOL.db  # Solana historical data
+│   ├── trading_data_SOL.db  # Solana historical data
+│   ├── trading_data_GOLD.db # Gold commodity data (new)
+│   └── trading_data_CLOIL.db # Crude Oil commodity data (new)
 │
 ├── data_fetching/       # Data collection modules
 │   ├── __init__.py
-│   ├── collect_historical_data.py  # Main data collection script
+│   ├── collect_historical_data.py  # Main data collection script (crypto)
 │   ├── data_fetcher.py            # CCXT integration
 │   ├── data_manager.py            # Database operations
-│   └── database_init.py           # Database initialization
+│   ├── database_init.py           # Database initialization
+│   └── commodity_data_handler.py  # Yahoo Finance data handler (new)
 │
 ├── strategy/            # Trading strategy implementation
 │   ├── compute_ichimoku_to_sql.py  # Ichimoku calculations
@@ -54,7 +82,7 @@ BacktestBot/
 │   └── ichimoku_strategy.py        # Strategy logic
 │
 ├── backtesting/         # Backtesting engine
-│   └── ichimoku_backtester.py      # Main backtester (applies PSAR confirmation)
+│   └── ichimoku_backtester.py      # Main backtester (refactored, inherits BaseBacktester)
 │
 ├── llm_analysis/        # LLM integration for optimization
 │   ├── __init__.py
@@ -70,12 +98,15 @@ BacktestBot/
 │   ├── __init__.py
 │   └── report_generator.py    # Generate backtest reports
 │
+├── scripts/             # Utility scripts (new)
+│   └── import_commodity_to_sql.py  # Migration script for commodity data
+│
 └── reports/            # Generated reports directory
 ```
 
 ## Database Schema
 
-The project uses SQLite databases with a per-symbol architecture. Each cryptocurrency has its own database file containing:
+The project uses SQLite databases with a per-symbol architecture. Each cryptocurrency and commodity has its own database file containing:
 
 ### Tables
 
@@ -125,11 +156,38 @@ The project uses SQLite databases with a per-symbol architecture. Each cryptocur
 - `latest_data_view`: Summary of available data per timeframe
 - `ichimoku_signals_view`: Trading signals based on Ichimoku
 
+Note: The same schema is used for both cryptocurrency and commodity databases, ensuring unified data access.
+
+## Commodity Data Support (New)
+
+BacktestBot now supports commodity backtesting via Yahoo Finance integration. Commodity data is fetched using `CommodityDataHandler` and stored in SQLite databases with the same schema as crypto assets.
+
+### Supported Commodities
+
+- Gold (GOLD.db)
+- Crude Oil (CLOIL.db)
+
+### Migration Script
+
+Use `scripts/import_commodity_to_sql.py` to import commodity data from Yahoo Finance and store it in SQLite databases with precomputed Ichimoku indicators.
+
+## Refactoring Progress
+
+| Step | Description | Status |
+|------|-------------|--------|
+| 1 | Create Base Package with Abstract Base Classes (BaseDataHandler, BaseStrategy, BaseBacktester) | ✅ Completed |
+| 2 | Migrate Commodity Data to SQLite (Unified Schema) | ✅ Completed |
+| 3 | Refactor Ichimoku Backtester to Inherit BaseBacktester | ✅ Completed |
+| 4 | Port Commodity Strategies & Update Configuration System | 🔄 Pending |
+| 5 | Update Reporting Module for Multi-Asset Compatibility | 🔄 Pending |
+| 6 | Testing & Validation | 🔄 Pending |
+| 7 | Documentation & Skills Update | 🔄 Pending |
+
 ## Installation
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/BacktestBot.git
+git clone https://github.com/AndErem314/BacktestBot.git
 cd BacktestBot
 ```
 
@@ -148,12 +206,12 @@ pip install -r requirements.txt
 Create a `.env` file in the project root with your API keys (optional if already exported in your shell):
 ```
 # Exchange API (if needed for live data)
-EXCHANGE_API_KEY=your_exchange_api_key
-EXCHANGE_API_SECRET=your_exchange_api_secret
+EXCHANGE_API_KEY=your_e..._key
+EXCHANGE_API_SECRET=your_e...cret
 
 # LLM APIs for optimization
-OPENAI_API_KEY=your_openai_api_key
-GEMINI_API_KEY=your_gemini_api_key
+OPENAI_API_KEY=your_o..._key
+GEMINI_API_KEY=your_g..._key
 ```
 
 ## Usage
@@ -180,7 +238,7 @@ The main menu provides three options:
 2. **Backtesting**:
    - Select option 3
    - Choose a strategy from the available list
-   - Select symbol (BTC, ETH, or SOL)
+   - Select symbol (BTC, ETH, SOL, GOLD, CLOIL)
    - Select timeframe (4h or 1d)
    - Optionally set a start date
    - Review generated reports in the `reports/` directory
@@ -205,12 +263,23 @@ python strategy/compute_macd_to_sql.py
 
 Defaults: fast=12, slow=26, signal=9 (configurable in `strategy/macd_indicator.py`). Data loaders automatically join MACD where available; no extra config needed.
 
-3. **LLM Optimization** (Optional):
-   - After backtesting, choose to generate the LLM optimization report
-   - Select prompt variant (analyst or risk-focused)
-   - Choose LLM provider (OpenAI or Gemini). Leave blank to use default from .env
-   - The PDF starts with a usage header showing provider, model, and token counts
-   - A YAML with optimized settings is also written to config/llm_strategy_config/
+### Commodity Data Import
+
+To import commodity data (Gold, Crude Oil) into SQLite databases with Ichimoku indicators:
+
+```bash
+python scripts/import_commodity_to_sql.py
+```
+
+This script fetches data from Yahoo Finance and populates the unified SQLite schema.
+
+### LLM Optimization (Optional):
+
+- After backtesting, choose to generate the LLM optimization report
+- Select prompt variant (analyst or risk-focused)
+- Choose LLM provider (OpenAI or Gemini). Leave blank to use default from .env
+- The PDF starts with a usage header showing provider, model, and token counts
+- A YAML with optimized settings is also written to config/llm_strategy_config/
 
 ## Technical Indicators
 
@@ -298,7 +367,7 @@ LLM Optimization PDF (reports/*_llm.pdf):
 
 ## Notes
 
-- Historical data starts from August 1, 2020
+- Historical data starts from August 1, 2020 for crypto; commodities have ~2 years of data.
 - Backtesting uses fixed position sizing (100% of equity)
 - Commission: 0.1%, Slippage: 0.03%
 - Default LLM models: OpenAI gpt-4o-mini, Gemini gemini-2.5-pro

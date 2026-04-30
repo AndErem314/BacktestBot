@@ -652,7 +652,7 @@ class IchimokuBacktester(BaseBacktester):
         }
     
     def _calculate_max_drawdown(self, equity_curve: List[float]) -> float:
-        """Calculate maximum drawdown from equity curve."""
+        """Calculate maximum drawdown from equity curve. Returns decimal (0-1)."""
         if not equity_curve:
             return 0.0
         
@@ -666,7 +666,7 @@ class IchimokuBacktester(BaseBacktester):
             if dd > max_dd:
                 max_dd = dd
         
-        return max_dd * 100  # Convert to percentage
+        return max_dd  # Return decimal (0-1), NOT percentage
     
     def _calculate_sharpe_ratio(self, trades_df: pd.DataFrame) -> float:
         """Calculate Sharpe ratio from trade returns."""

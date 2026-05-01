@@ -12,6 +12,24 @@ import logging
 from dataclasses import dataclass
 from enum import Enum
 
+from typing import Dict, List, Optional, Tuple, Union, Any
+import sys
+from pathlib import Path
+
+# Add project root to path for imports
+_project_root = Path(__file__).parent.parent
+if str(_project_root) not in sys.path:
+    sys.path.append(str(_project_root))
+
+try:
+    from strategy.macd_indicator import compute_macd
+    from strategy.psar_indicator import compute_psar
+except ImportError:
+    # Fallback for direct execution
+    from macd_indicator import compute_macd
+    from psar_indicator import compute_psar
+
+
 # Configure logging
 logger = logging.getLogger(__name__)
 
@@ -28,6 +46,13 @@ class SignalType(Enum):
     CHIKOU_BELOW_PRICE = "ChikouBelowPrice"
     CHIKOU_ABOVE_CLOUD = "ChikouAboveCloud"
     CHIKOU_BELOW_CLOUD = "ChikouBelowCloud"
+    # MACD signals
+    MACD_ABOVE_SIGNAL = "MACDAboveSignal"
+    MACD_BELOW_SIGNAL = "MACDBelowSignal"
+    # PSAR signals
+    PSAR_TREND_UP = "PSARTrendUp"
+    PSAR_TREND_DOWN = "PSARTrendDown"
+
 
 
 @dataclass
@@ -72,7 +97,13 @@ class UnifiedIchimokuAnalyzer:
             SignalType.CHIKOU_ABOVE_PRICE: 'chikou_above_price',
             SignalType.CHIKOU_BELOW_PRICE: 'chikou_below_price',
             SignalType.CHIKOU_ABOVE_CLOUD: 'chikou_above_cloud',
-            SignalType.CHIKOU_BELOW_CLOUD: 'chikou_below_cloud'
+            SignalType.CHIKOU_BELOW_CLOUD: 'chikou_below_cloud',
+            # New MACD signal mappings
+            SignalType.MACD_ABOVE_SIGNAL: 'macd_above_signal',
+            SignalType.MACD_BELOW_SIGNAL: 'macd_below_signal',
+            # New PSAR signal mappings
+            SignalType.PSAR_TREND_UP: 'psar_trend_up',
+            SignalType.PSAR_TREND_DOWN: 'psar_trend_down'
         }
 
     def calculate_ichimoku_components(self,
@@ -180,6 +211,14 @@ class UnifiedIchimokuAnalyzer:
         signal_df['chikou_below_price'] = self._detect_chikou_below_price(signal_df, closed_bars_mask, parameters)
         signal_df['chikou_above_cloud'] = self._detect_chikou_above_cloud(signal_df, closed_bars_mask, parameters)
         signal_df['chikou_below_cloud'] = self._detect_chikou_below_cloud(signal_df, closed_bars_mask, parameters)
+        
+        # MACD signals (if MACD columns exist)
+        if 'macd_line' in signal_df.columns and 'signal_line' in signal_df.columns:
+            signal_df = self.detect_macd_signals(signal_df)
+        
+        # PSAR signals (if PSAR columns exist)
+        if 'psar_trend' in signal_df.columns:
+            signal_df = self.detect_psar_signals(signal_df)
 
         return signal_df
 
@@ -417,6 +456,130 @@ class UnifiedIchimokuAnalyzer:
             "tenkan_below_kijun": latest.get('tenkan_below_kijun', False),
             "span_a_above_span_b": latest.get('SpanAaboveSpanB', False)
         }
+
+
+    
+    def compute_macd_indicators(self, df: pd.DataFrame, 
+                                fast: int = 12, slow: int = 26, signal: int = 9) -> pd.DataFrame:
+        """
+        Compute MACD indicators and add to DataFrame.
+        
+        Args:
+            df: DataFrame with 'close' column
+            fast: Fast EMA period
+            slow: Slow EMA period
+            signal: Signal line period
+            
+        Returns:
+            DataFrame with MACD columns added
+        """
+        if 'close' not in df.columns:
+            raise ValueError("compute_macd_indicators requires 'close' column")
+        
+        result_df = df.copy()
+        macd_df = compute_macd(df, fast, slow, signal)
+        
+        # Merge MACD columns
+        for col in macd_df.columns:
+            result_df[col] = macd_df[col]
+        
+        return result_df
+    
+    def compute_psar_indicators(self, df: pd.DataFrame,
+                                step: float = 0.02, max_step: float = 0.2) -> pd.DataFrame:
+        """
+        Compute PSAR indicators and add to DataFrame.
+        
+        Args:
+            df: DataFrame with 'high', 'low', 'close' columns
+            step: Acceleration factor increment
+            max_step: Maximum acceleration factor
+            
+        Returns:
+            DataFrame with PSAR columns added
+        """
+        if not set(['high', 'low', 'close']).issubset(df.columns):
+            raise ValueError("compute_psar_indicators requires 'high','low','close' columns")
+        
+        result_df = df.copy()
+        psar_df = compute_psar(df, step, max_step)
+        
+        # Merge PSAR columns
+        for col in psar_df.columns:
+            result_df[col] = psar_df[col]
+        
+        return result_df
+    
+    def detect_macd_signals(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Add MACD boolean signal columns to DataFrame.
+        
+        Args:
+            df: DataFrame with MACD columns (macd_line, signal_line)
+            
+        Returns:
+            DataFrame with macd_above_signal, macd_below_signal columns added
+        """
+        result_df = df.copy()
+        
+        if 'macd_line' in result_df.columns and 'signal_line' in result_df.columns:
+            result_df['macd_above_signal'] = result_df['macd_line'] > result_df['signal_line']
+            result_df['macd_below_signal'] = result_df['macd_line'] < result_df['signal_line']
+        else:
+            result_df['macd_above_signal'] = False
+            result_df['macd_below_signal'] = False
+        
+        return result_df
+    
+    def detect_psar_signals(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Add PSAR boolean signal columns to DataFrame.
+        
+        Args:
+            df: DataFrame with PSAR columns (psar_trend)
+            
+        Returns:
+            DataFrame with psar_trend_up, psar_trend_down columns added
+        """
+        result_df = df.copy()
+        
+        if 'psar_trend' in result_df.columns:
+            result_df['psar_trend_up'] = result_df['psar_trend'] == 1
+            result_df['psar_trend_down'] = result_df['psar_trend'] == -1
+        else:
+            result_df['psar_trend_up'] = False
+            result_df['psar_trend_down'] = False
+        
+        return result_df
+    
+    def compute_all_indicators(self, df: pd.DataFrame, 
+                               ichimoku_params: IchimokuParameters,
+                               compute_macd: bool = False,
+                               compute_psar: bool = False) -> pd.DataFrame:
+        """
+        Compute all indicators (Ichimoku, MACD, PSAR) based on flags.
+        
+        Args:
+            df: DataFrame with OHLCV data
+            ichimoku_params: Ichimoku parameters
+            compute_macd: Whether to compute MACD indicators
+            compute_psar: Whether to compute PSAR indicators
+            
+        Returns:
+            DataFrame with all requested indicators added
+        """
+        # Compute Ichimoku
+        result_df = self.calculate_ichimoku_components(df, ichimoku_params)
+        
+        # Compute MACD if requested
+        if compute_macd:
+            result_df = self.compute_macd_indicators(result_df)
+        
+        # Compute PSAR if requested
+        if compute_psar:
+            result_df = self.compute_psar_indicators(result_df)
+        
+        return result_df
 
     def _has_ichimoku_columns(self, df: pd.DataFrame) -> bool:
         """Check if DataFrame has required Ichimoku columns."""

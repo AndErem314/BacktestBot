@@ -1,20 +1,25 @@
 strategies:
-  # ============================================
-  # CRYPTOCURRENCY STRATEGIES
-  # ============================================
-  
   strategy_01:
-    name: "Full Confirmation TK Exit default with 3% SL"
-    description: "All conditions + Chikou confirmations, exit on TK cross down"
+    name: Full Confirmation TK Exit default with 3% SL
+    description: All conditions + Chikou confirmations, exit on TK cross down
     enabled: true
-    asset_class: "crypto"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "BTC/USDT" ]
+    asset_class: crypto
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - BTC/USDT
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -29,21 +34,38 @@ strategies:
       max_position_size_pct: 100.0
       risk_per_trade_pct: 3.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   strategy_02:
-    name: "Full Confirmation TK Exit modified with 3% SL"
-    description: "All conditions + Chikou confirmations, exit on TK cross down"
+    name: Full Confirmation TK Exit modified with 3% SL
+    description: All conditions + Chikou confirmations, exit on TK cross down
     enabled: true
-    asset_class: "crypto"
-    timeframes: [ "4h", "1d" ]
-    symbols: ["BTC/USDT"]
+    asset_class: crypto
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - BTC/USDT
     signal_conditions:
-      buy_conditions: ["PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice"]
-      sell_conditions: ["TenkanBelowKijun"]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 11
       kijun_period: 22
@@ -58,21 +80,38 @@ strategies:
       max_position_size_pct: 100.0
       risk_per_trade_pct: 3.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   strategy_03_SL-3:
-    name: "Full Confirmation TK Exit SL 3%"
-    description: "All conditions + Chikou confirmations, exit on TK cross down"
+    name: Full Confirmation TK Exit SL 3%
+    description: All conditions + Chikou confirmations, exit on TK cross down
     enabled: true
-    asset_class: "crypto"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "BTC/USDT" ]
+    asset_class: crypto
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - BTC/USDT
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -87,21 +126,38 @@ strategies:
       max_position_size_pct: 100.0
       risk_per_trade_pct: 5.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   strategy_04_SL-4_90:
-    name: "Full Confirmation TK Exit SL 4% with position size 90%"
-    description: "All conditions + Chikou confirmations, exit on TK cross down"
+    name: Full Confirmation TK Exit SL 4% with position size 90%
+    description: All conditions + Chikou confirmations, exit on TK cross down
     enabled: true
-    asset_class: "crypto"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "BTC/USDT" ]
+    asset_class: crypto
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - BTC/USDT
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -116,21 +172,38 @@ strategies:
       max_position_size_pct: 90.0
       risk_per_trade_pct: 5.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   strategy_05_SL-3_90:
-    name: "Full Confirmation TK Exit SL 3% with position size 90%"
-    description: "All conditions + Chikou confirmations, exit on TK cross down"
+    name: Full Confirmation TK Exit SL 3% with position size 90%
+    description: All conditions + Chikou confirmations, exit on TK cross down
     enabled: true
-    asset_class: "crypto"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "BTC/USDT" ]
+    asset_class: crypto
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - BTC/USDT
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -145,21 +218,38 @@ strategies:
       max_position_size_pct: 90.0
       risk_per_trade_pct: 5.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   strategy_06_modifd:
-    name: "Full Confirmation TK Exit with modified parameters"
-    description: "All conditions + Chikou confirmations, exit on TK cross down"
+    name: Full Confirmation TK Exit with modified parameters
+    description: All conditions + Chikou confirmations, exit on TK cross down
     enabled: true
-    asset_class: "crypto"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "BTC/USDT" ]
+    asset_class: crypto
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - BTC/USDT
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud", "ChikouAbovePrice" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 7
       kijun_period: 20
@@ -174,25 +264,37 @@ strategies:
       max_position_size_pct: 100.0
       risk_per_trade_pct: 5.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
-  # ============================================
-  # COMMODITY STRATEGIES (Gold & Crude Oil)
-  # ============================================
-  
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   commodity_gold_winning:
-    name: "Gold Winning Strategy - 4% SL / 8% TP"
-    description: "Optimized for Gold (GC=F) with tighter SL and smaller profit targets for more trades"
+    name: Gold Winning Strategy - 4% SL / 8% TP
+    description: Optimized for Gold (GC=F) with tighter SL and smaller profit targets
+      for more trades
     enabled: true
-    asset_class: "commodity"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "GOLD" ]
+    asset_class: commodity
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - GOLD
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -207,21 +309,37 @@ strategies:
       max_position_size_pct: 100.0
       risk_per_trade_pct: 4.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   commodity_gold_conservative:
-    name: "Gold Conservative - 6.5% SL / 15% TP"
-    description: "Conservative Gold strategy with wider SL and higher TP targets"
+    name: Gold Conservative - 6.5% SL / 15% TP
+    description: Conservative Gold strategy with wider SL and higher TP targets
     enabled: true
-    asset_class: "commodity"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "GOLD" ]
+    asset_class: commodity
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - GOLD
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB", "ChikouAboveCloud" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -236,21 +354,37 @@ strategies:
       max_position_size_pct: 100.0
       risk_per_trade_pct: 6.5
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   commodity_oil_winning:
-    name: "Crude Oil Winning Strategy - 4% SL / 8% TP"
-    description: "Optimized for Crude Oil (CL=F) with tighter SL and smaller profit targets for more trades"
+    name: Crude Oil Winning Strategy - 4% SL / 8% TP
+    description: Optimized for Crude Oil (CL=F) with tighter SL and smaller profit
+      targets for more trades
     enabled: true
-    asset_class: "commodity"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "CLOIL" ]
+    asset_class: commodity
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - CLOIL
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -265,21 +399,36 @@ strategies:
       max_position_size_pct: 100.0
       risk_per_trade_pct: 4.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   commodity_oil_aggressive:
-    name: "Crude Oil Aggressive - 3% SL / 6% TP"
-    description: "Aggressive Crude Oil strategy with very tight SL for maximum trade frequency"
+    name: Crude Oil Aggressive - 3% SL / 6% TP
+    description: Aggressive Crude Oil strategy with very tight SL for maximum trade
+      frequency
     enabled: true
-    asset_class: "commodity"
-    timeframes: [ "4h", "1d" ]
-    symbols: [ "CLOIL" ]
+    asset_class: commodity
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - CLOIL
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -294,21 +443,37 @@ strategies:
       max_position_size_pct: 100.0
       risk_per_trade_pct: 3.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
-
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
   commodity_multi_asset:
-    name: "Multi-Asset Commodity Portfolio"
-    description: "Portfolio strategy testing both Gold and Crude Oil with balanced risk"
+    name: Multi-Asset Commodity Portfolio
+    description: Portfolio strategy testing both Gold and Crude Oil with balanced
+      risk
     enabled: true
-    asset_class: "commodity"
-    timeframes: [ "1d" ]
-    symbols: [ "GOLD", "CLOIL" ]
+    asset_class: commodity
+    timeframes:
+    - 1d
+    symbols:
+    - GOLD
+    - CLOIL
     signal_conditions:
-      buy_conditions: [ "PriceAboveCloud", "TenkanAboveKijun", "SpanAaboveSpanB" ]
-      sell_conditions: [ "TenkanBelowKijun" ]
-      buy_logic: "AND"
-      sell_logic: "AND"
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      sell_conditions:
+      - TenkanBelowKijun
+      buy_logic: AND
+      sell_logic: AND
     ichimoku_parameters:
       tenkan_period: 9
       kijun_period: 26
@@ -323,5 +488,98 @@ strategies:
       max_position_size_pct: 50.0
       risk_per_trade_pct: 4.0
     position_sizing:
-      method: "fixed"
+      method: fixed
       fixed_size: 1000
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
+  crypto_macd_fast:
+    name: Crypto MACD Fast (8,21,5) + Ichimoku
+    description: Faster MACD signals with Ichimoku confirmation
+    enabled: true
+    asset_class: crypto
+    timeframes:
+    - 4h
+    - 1d
+    symbols:
+    - BTC/USDT
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - MACDAboveSignal
+      - ChikouAboveCloud
+      sell_conditions:
+      - TenkanBelowKijun
+      - MACDBelowSignal
+      buy_logic: AND
+      sell_logic: OR
+    ichimoku_parameters:
+      tenkan_period: 9
+      kijun_period: 26
+      senkou_b_period: 52
+      chikou_offset: 26
+      senkou_offset: 26
+    macd_parameters:
+      enabled: true
+      fast: 8
+      slow: 21
+      signal: 5
+    psar_parameters:
+      enabled: false
+      step: 0.02
+      max_step: 0.2
+    risk_management:
+      stop_loss_pct: 3.0
+      take_profit_pct: null
+      close_on_sell_signal: true
+      trailing_stop: false
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 3.0
+  commodity_gold_psar_sensitive:
+    name: Gold PSAR Sensitive (0.01,0.15) + Ichimoku + TP
+    description: More sensitive PSAR with Ichimoku and Take Profit
+    enabled: true
+    asset_class: commodity
+    timeframes:
+    - 1d
+    symbols:
+    - GC=F
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - PSARTrendUp
+      sell_conditions:
+      - TenkanBelowKijun
+      - PSARTrendDown
+      buy_logic: AND
+      sell_logic: OR
+    ichimoku_parameters:
+      tenkan_period: 9
+      kijun_period: 26
+      senkou_b_period: 52
+      chikou_offset: 26
+      senkou_offset: 26
+    macd_parameters:
+      enabled: false
+      fast: 12
+      slow: 26
+      signal: 9
+    psar_parameters:
+      enabled: true
+      step: 0.01
+      max_step: 0.15
+    risk_management:
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      close_on_sell_signal: true
+      trailing_stop: false
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0

@@ -140,14 +140,77 @@ class IchimokuBacktester(BaseBacktester):
         # If data_handler provided, load data from it
         if data_handler:
             timeframe = strategy_config.get('timeframes', ['1d'])[0]
+            
+            # Always load raw OHLCV data first
             data = data_handler.load_ohlcv(timeframe)
-            if 'ichimoku' in strategy_config.get('signal_conditions', {}).get('buy_conditions', []):
-                data = data_handler.load_indicators('ichimoku', timeframe)
+            
+            # Compute indicators ON-THE-FLY with custom parameters from strategy config
+            macd_params = strategy_config.get('macd_parameters', {})
+            psar_params = strategy_config.get('psar_parameters', {})
+            ichimoku_params = strategy_config.get('ichimoku_parameters', {})
+            
+            # Compute MACD if enabled (with custom fast/slow/signal parameters)
+            if macd_params.get('enabled'):
+                from strategy.macd_indicator import compute_macd
+                macd_result = compute_macd(
+                    data, 
+                    fast=macd_params.get('fast', 12),
+                    slow=macd_params.get('slow', 26),
+                    signal=macd_params.get('signal', 9)
+                )
+                # Merge MACD data into main DataFrame
+                data['macd_line'] = macd_result['macd_line']
+                data['signal_line'] = macd_result['signal_line']
+                data['macd_histogram'] = macd_result['macd_histogram']
+                # Add boolean signal columns for backtester condition matching
+                data['macd_above_signal'] = macd_result['macd_line'] > macd_result['signal_line']
+                data['macd_below_signal'] = macd_result['macd_line'] < macd_result['signal_line']
+                logger.info(f"Computed MACD on-the-fly with params: fast={macd_params.get('fast', 12)}, slow={macd_params.get('slow', 26)}, signal={macd_params.get('signal', 9)}")
+            
+            # Compute PSAR if enabled (with custom step/max_step parameters)
+            elif psar_params.get('enabled'):
+                from strategy.psar_indicator import compute_psar
+                psar_result = compute_psar(
+                    data,
+                    step=psar_params.get('step', 0.02),
+                    max_step=psar_params.get('max_step', 0.2)
+                )
+                # Merge PSAR data into main DataFrame
+                data['psar'] = psar_result['psar']
+                data['psar_trend'] = psar_result['psar_trend']
+                data['psar_reversal'] = psar_result['psar_reversal']
+                # Add boolean signal columns for backtester condition matching
+                data['psar_uptrend'] = psar_result['psar_trend'] == 1
+                data['psar_downtrend'] = psar_result['psar_trend'] == -1
+                logger.info(f"Computed PSAR on-the-fly with params: af={psar_params.get('af', 0.02)}, max_af={psar_params.get('max_af', 0.2)}")
+            
+            # Compute Ichimoku if enabled (with custom tenkan/kijun/senkou_b parameters)
+            elif ichimoku_params.get('enabled') or ('ichimoku_parameters' in strategy_config and 'enabled' not in ichimoku_params):
+                from strategy.ichimoku_strategy import UnifiedIchimokuAnalyzer, IchimokuParameters
+                
+                # Default to enabled if 'ichimoku_parameters' exists but 'enabled' is not set
+                ichimoku_enabled = ichimoku_params.get('enabled', True)
+                
+                if ichimoku_enabled:
+                    analyzer = UnifiedIchimokuAnalyzer()
+                    params = IchimokuParameters(
+                        tenkan_period=ichimoku_params.get('tenkan_period', 9),
+                        kijun_period=ichimoku_params.get('kijun_period', 26),
+                        senkou_b_period=ichimoku_params.get('senkou_b_period', 52),
+                        chikou_offset=ichimoku_params.get('chikou_offset', 26),
+                        senkou_offset=ichimoku_params.get('senkou_offset', 26)
+                    )
+                    # Compute Ichimoku components with custom parameters
+                    data = analyzer.calculate_ichimoku_components(data, params)
+                    # Detect boolean signals
+                    data = analyzer.detect_boolean_signals(data, params)
+                    logger.info(f"Computed Ichimoku on-the-fly with params: tenkan={params.tenkan_period}, kijun={params.kijun_period}, senkou_b={params.senkou_b_period}")
+            
+            # If no indicators enabled, data remains as raw OHLCV
         else:
-            # Original behavior: data should be passed separately
-            raise ValueError("For backward compatibility, use run_backtest_with_data()")
+            raise ValueError("data_handler is required for on-the-fly indicator computation")
         
-        return self._execute_backtest_with_data(strategy_config, data, initial_capital)
+        return self.run_backtest_with_data(strategy_config, data, initial_capital)
     
     def run_backtest_with_data(self,
                               strategy_config: Dict,
@@ -339,8 +402,14 @@ class IchimokuBacktester(BaseBacktester):
             'ChikouBelowPrice': 'chikou_below_price',
             'ChikouAboveCloud': 'chikou_above_cloud',
             'ChikouBelowCloud': 'chikou_below_cloud',
+            # MACD conditions
+            'MACDAboveSignal': 'macd_above_signal',
+            'MACDBelowSignal': 'macd_below_signal',
+            # PSAR conditions (match both naming conventions)
             'PSARUptrend': 'psar_uptrend',
             'PSARDowntrend': 'psar_downtrend',
+            'PSARTrendUp': 'psar_uptrend',
+            'PSARTrendDown': 'psar_downtrend',
         }
     
     def _check_conditions(self, row: pd.Series, conditions: List[str], logic: str) -> bool:
@@ -837,7 +906,7 @@ class StrategyBacktestRunner:
                                     end: Optional[str] = None,
                                     ichimoku_params: Optional[Dict[str, Any]] = None,
                                     force_recompute: bool = False) -> pd.DataFrame:
-        """Fetch OHLCV+Ichimoku and add boolean signals."""
+        """Fetch OHLCV + ALL indicators and add boolean signals."""
         dm = DataManager(symbol=symbol_short)
         start_dt = pd.to_datetime(start) if start else None
         end_dt = pd.to_datetime(end) if end else None
@@ -845,59 +914,74 @@ class StrategyBacktestRunner:
         analyzer = UnifiedIchimokuAnalyzer()
         params = IchimokuStrategyConfig.create_parameters(**(ichimoku_params or {}))
         
-        if force_recompute:
-            # Load raw OHLCV only and recompute all components with strategy params
-            df = dm.get_ohlcv_data(timeframe=timeframe, start_date=start_dt, end_date=end_dt)
-            dm.close_connection()
-            if df.empty:
-                return df
-            df = analyzer.calculate_ichimoku_components(df, params)
-            df = analyzer.detect_boolean_signals(df, params)
-            # Compute PSAR in-memory for confirmation
-            try:
-                from strategy.psar_indicator import compute_psar
-                psar_df = compute_psar(df[['high','low','close']])
-                df['psar'] = psar_df['psar']
-                df['psar_trend'] = psar_df['psar_trend']
-                df['psar_reversal'] = psar_df['psar_reversal']
-            except Exception:
-                pass
-            # Derive boolean PSAR signals on closed bars
-            if 'psar_trend' in df.columns:
-                closed_mask = df.index.to_series().notna()
-                if len(df) > 0:
-                    closed_mask.iloc[-1] = False
-                df['psar_uptrend'] = (df['psar_trend'] == 1) & closed_mask
-                df['psar_downtrend'] = (df['psar_trend'] == -1) & closed_mask
-            return df
-        
-        # Default path: use SQL ichimoku view if present, otherwise OHLCV and compute missing
-        try:
-            df = dm.get_ichimoku_data(timeframe=timeframe, start_date=start_dt, end_date=end_dt)
-        except Exception:
-            df = dm.get_ohlcv_data(timeframe=timeframe, start_date=start_dt, end_date=end_dt)
+        # Always load OHLCV data first
+        df = dm.get_ohlcv_data(timeframe=timeframe, start_date=start_dt, end_date=end_dt)
         dm.close_connection()
+        
         if df.empty:
             return df
         
-        # If Ichimoku components are not present, compute them from price data using analyzer
-        if not set(['tenkan_sen','kijun_sen','senkou_span_a','senkou_span_b','chikou_span']).issubset(df.columns):
+        # Ensure timestamp is column (not index) for merging
+        if df.index.name == 'timestamp':
+            df = df.reset_index()
+        if 'timestamp' not in df.columns:
+            df['timestamp'] = pd.to_datetime(df.index)
+        
+        # Load indicator data using CommodityDataHandler
+        from data_fetching.commodity_data_handler import CommodityDataHandler
+        handler = CommodityDataHandler(symbol_short)
+        
+        # Load MACD data if available
+        try:
+            macd_df = handler.load_indicators('macd', timeframe)
+            if not macd_df.empty and 'macd_line' in macd_df.columns:
+                # Ensure timestamp is column for merging
+                if macd_df.index.name == 'timestamp':
+                    macd_df = macd_df.reset_index()
+                # Merge on timestamp column
+                df = pd.merge(
+                    df, 
+                    macd_df[['timestamp', 'macd_line', 'signal_line', 'macd_histogram']], 
+                    on='timestamp', 
+                    how='left'
+                )
+                print(f"Loaded MACD data: {len(macd_df)} records")
+        except Exception as e:
+            print(f"MACD load failed: {e}")
+        
+        # Load PSAR data if available
+        try:
+            psar_df = handler.load_indicators('psar', timeframe)
+            if not psar_df.empty and 'psar' in psar_df.columns:
+                # Ensure timestamp is column for merging
+                if psar_df.index.name == 'timestamp':
+                    psar_df = psar_df.reset_index()
+                # Merge on timestamp column
+                df = pd.merge(
+                    df, 
+                    psar_df[['timestamp', 'psar', 'psar_trend', 'psar_reversal']], 
+                    on='timestamp', 
+                    how='left'
+                )
+                print(f"Loaded PSAR data: {len(psar_df)} records")
+        except Exception as e:
+            print(f"PSAR load failed: {e}")
+        
+        handler.close()
+        
+        # Set timestamp as index for further processing
+        if 'timestamp' in df.columns:
+            df['timestamp'] = pd.to_datetime(df['timestamp'])
+            df.set_index('timestamp', inplace=True)
+        
+        # Compute Ichimoku if not present
+        if not set(['tenkan_sen','kijun_sen','senkou_span_a','senkou_span_b']).issubset(df.columns):
             df = analyzer.calculate_ichimoku_components(df, params)
-        # Add boolean signals
+        
+        # Add boolean signals (this will detect MACD/PSAR signals if columns exist)
         df = analyzer.detect_boolean_signals(df, params)
         
-        # Ensure PSAR columns present; if not, compute in-memory
-        psar_present = 'psar' in df.columns
-        if not psar_present:
-            try:
-                from strategy.psar_indicator import compute_psar
-                psar_df = compute_psar(df[['high','low','close']])
-                df['psar'] = psar_df['psar']
-                df['psar_trend'] = psar_df['psar_trend']
-                df['psar_reversal'] = psar_df['psar_reversal']
-            except Exception:
-                pass
-        # Derive boolean PSAR signals on closed bars
+        # Ensure PSAR boolean columns for backtesting
         if 'psar_trend' in df.columns:
             closed_mask = df.index.to_series().notna()
             if len(df) > 0:
@@ -905,7 +989,29 @@ class StrategyBacktestRunner:
             df['psar_uptrend'] = (df['psar_trend'] == 1) & closed_mask
             df['psar_downtrend'] = (df['psar_trend'] == -1) & closed_mask
         
-        # Compute SpanA vs SpanB boolean columns for signal evaluation
+        # Compute SpanA vs SpanB boolean columns
+        if 'senkou_span_a' in df.columns and 'senkou_span_b' in df.columns:
+            df['span_a_above_span_b'] = df['senkou_span_a'] > df['senkou_span_b']
+            df['span_a_below_span_b'] = df['senkou_span_a'] < df['senkou_span_b']
+        
+        return df
+        
+        # Compute Ichimoku if not present
+        if not set(['tenkan_sen','kijun_sen','senkou_span_a','senkou_span_b']).issubset(df.columns):
+            df = analyzer.calculate_ichimoku_components(df, params)
+        
+        # Add boolean signals (this will detect MACD/PSAR signals if columns exist)
+        df = analyzer.detect_boolean_signals(df, params)
+        
+        # Ensure PSAR boolean columns for backtesting
+        if 'psar_trend' in df.columns:
+            closed_mask = df.index.to_series().notna()
+            if len(df) > 0:
+                closed_mask.iloc[-1] = False
+            df['psar_uptrend'] = (df['psar_trend'] == 1) & closed_mask
+            df['psar_downtrend'] = (df['psar_trend'] == -1) & closed_mask
+        
+        # Compute SpanA vs SpanB boolean columns
         if 'senkou_span_a' in df.columns and 'senkou_span_b' in df.columns:
             df['span_a_above_span_b'] = df['senkou_span_a'] > df['senkou_span_b']
             df['span_a_below_span_b'] = df['senkou_span_a'] < df['senkou_span_b']
@@ -926,14 +1032,21 @@ class StrategyBacktestRunner:
                        force_recompute_ichimoku: bool = False) -> Dict[str, Any]:
         """Load strategy by key, fetch data, run backtest, and generate report."""
         strategy_config = self.load_strategy_from_json(strategy_key)
-        data = self.fetch_sql_data_with_signals(symbol_short, timeframe,
-                                                start, end,
-                                                strategy_config.get('ichimoku_parameters'),
-                                                force_recompute=force_recompute_ichimoku)
-        if data.empty:
-            raise ValueError("No data available for backtest")
         
-        result = self.run_strategy_backtest(strategy_config, data, initial_capital)
+        # Create data handler for the symbol
+        from data_fetching.commodity_data_handler import CommodityDataHandler
+        data_handler = CommodityDataHandler(symbol_short)
+        
+        # Create or reuse backtester
+        asset_class = strategy_config.get('asset_class', 'crypto')
+        if self.backtester is None or self.backtester.asset_class != asset_class:
+            self.backtester = IchimokuBacktester(asset_class=asset_class)
+        
+        # Use _run_backtest_from_config() which computes indicators ON-THE-FLY with custom parameters
+        logger.info(f"Running backtest for: {strategy_config['name']}")
+        result = self.backtester._run_backtest_from_config(
+            strategy_config, data_handler, initial_capital
+        )
         
         # Prepare structures for reporting
         trades_df = pd.DataFrame([t.__dict__ for t in result.trades]) if result.trades else pd.DataFrame()

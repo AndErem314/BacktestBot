@@ -200,11 +200,40 @@ class CommodityDataHandler(BaseDataHandler):
                 WHERE o.timeframe = ?
                 ORDER BY o.timestamp
             """
+        elif indicator_type == 'macd':
+            query = """
+                SELECT o.timestamp, o.open, o.high, o.low, o.close, o.volume,
+                       m.macd_line, m.signal_line, m.macd_histogram
+                FROM ohlcv_data o
+                LEFT JOIN macd_data m ON o.id = m.ohlcv_id
+                WHERE o.timeframe = ?
+                ORDER BY o.timestamp
+            """
+        elif indicator_type == 'psar':
+            query = """
+                SELECT o.timestamp, o.open, o.high, o.low, o.close, o.volume,
+                       p.psar, p.psar_trend, p.psar_reversal
+                FROM ohlcv_data o
+                LEFT JOIN psar_data p ON o.id = p.ohlcv_id
+                WHERE o.timeframe = ?
+                ORDER BY o.timestamp
+            """
         else:
             raise ValueError(f"Unsupported indicator type: {indicator_type}")
         
         df = pd.read_sql_query(query, conn, params=[timeframe])
         df['timestamp'] = pd.to_datetime(df['timestamp'])
+        df.set_index('timestamp', inplace=True)
+        
+        # Add boolean signal columns for backtester condition matching
+        if indicator_type == 'macd':
+            df['macd_above_signal'] = df['macd_line'] > df['signal_line']
+            df['macd_below_signal'] = df['macd_line'] < df['signal_line']
+        elif indicator_type == 'psar':
+            # psar_trend is 1 for uptrend, -1 for downtrend
+            df['psar_uptrend'] = df['psar_trend'] == 1
+            df['psar_downtrend'] = df['psar_trend'] == -1
+        
         return df
     
     def save_indicators(self, indicator_type: str, data: pd.DataFrame) -> None:

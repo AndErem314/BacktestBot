@@ -1,0 +1,16 @@
+{
+  "ETH": {
+    "total_return_pct": 368.89156415885117,
+    "win_rate": 43.269230769230774,
+    "max_drawdown_pct": 23.696187707563265,
+    "sharpe_ratio": 2.717556309198207,
+    "total_trades": 104
+  },
+  "SOL": {
+    "total_return_pct": 870.3092510330339,
+    "win_rate": 51.19047619047619,
+    "max_drawdown_pct": 25.455095205556848,
+    "sharpe_ratio": 3.715239109537273,
+    "total_trades": 84
+  }
+}

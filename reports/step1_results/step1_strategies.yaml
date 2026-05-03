@@ -1,0 +1,6084 @@
+strategies:
+  commodity_gold_conservative:
+    asset_class: commodity
+    description: Conservative Gold strategy with wider SL and higher TP targets
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Gold Conservative - 6.5% SL / 15% TP
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 6.5
+      stop_loss_pct: 6.5
+      take_profit_pct: 15.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - GOLD
+    timeframes:
+    - 4h
+    - 1d
+  commodity_gold_psar_sensitive:
+    asset_class: commodity
+    description: More sensitive PSAR with Ichimoku and Take Profit
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Gold PSAR Sensitive (0.01,0.15) + Ichimoku + TP
+    psar_parameters:
+      enabled: true
+      max_step: 0.15
+      step: 0.01
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      - PSARTrendDown
+      sell_logic: OR
+    symbols:
+    - GC=F
+    timeframes:
+    - 1d
+  commodity_gold_winning:
+    asset_class: commodity
+    description: Optimized for Gold (GC=F) with tighter SL and smaller profit targets
+      for more trades
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Gold Winning Strategy - 4% SL / 8% TP
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - GOLD
+    timeframes:
+    - 4h
+    - 1d
+  commodity_multi_asset:
+    asset_class: commodity
+    description: Portfolio strategy testing both Gold and Crude Oil with balanced
+      risk
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Multi-Asset Commodity Portfolio
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 50.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - GOLD
+    - CLOIL
+    timeframes:
+    - 1d
+  commodity_oil_aggressive:
+    asset_class: commodity
+    description: Aggressive Crude Oil strategy with very tight SL for maximum trade
+      frequency
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Crude Oil Aggressive - 3% SL / 6% TP
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 3.0
+      stop_loss_pct: 3.0
+      take_profit_pct: 6.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - CLOIL
+    timeframes:
+    - 4h
+    - 1d
+  commodity_oil_winning:
+    asset_class: commodity
+    description: Optimized for Crude Oil (CL=F) with tighter SL and smaller profit
+      targets for more trades
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Crude Oil Winning Strategy - 4% SL / 8% TP
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - CLOIL
+    timeframes:
+    - 4h
+    - 1d
+  crypto_macd_fast:
+    asset_class: crypto
+    description: Faster MACD signals with Ichimoku confirmation
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 8
+      signal: 5
+      slow: 21
+    name: Crypto MACD Fast (8,21,5) + Ichimoku
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 3.0
+      stop_loss_pct: 3.0
+      take_profit_pct: null
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - MACDAboveSignal
+      - ChikouAboveCloud
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      - MACDBelowSignal
+      sell_logic: OR
+    symbols:
+    - BTC/USDT
+    timeframes:
+    - 4h
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K26_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K26_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K26_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K30_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K30_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K30_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T12_K34_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T12_K34_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 12
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T12_K34_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K26_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K26_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K26_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K30_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K30_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K30_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T15_K34_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T15_K34_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 15
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T15_K34_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K26_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K26_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K26_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K30_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K30_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 30
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K30_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB52_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB52_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB52_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB52_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB52_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB52_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB52_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB52_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB52_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB52_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB52_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB52_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB60_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB60_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB60_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB60_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB60_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB60_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB60_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB60_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB60_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB60_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB60_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 60
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB60_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB65_ADX15:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB65_ADX15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB65_ADX15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB65_ADX20:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB65_ADX20'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB65_ADX20
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB65_ADX25:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB65_ADX25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB65_ADX25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_ichimoku_Ichimoku_T9_K34_SB65_ADXNone:
+    asset_class: commodity
+    description: 'Ichimoku single-indicator test: Ichimoku_T9_K34_SB65_ADXNone'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 34
+      senkou_b_period: 65
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: Ichimoku_T9_K34_SB65_ADXNone
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S24_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S24_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 11
+      slow: 24
+    name: MACD_F10_S24_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S24_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S24_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 7
+      slow: 24
+    name: MACD_F10_S24_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S24_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S24_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 9
+      slow: 24
+    name: MACD_F10_S24_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S26_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S26_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 11
+      slow: 26
+    name: MACD_F10_S26_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S26_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S26_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 7
+      slow: 26
+    name: MACD_F10_S26_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S26_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S26_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 9
+      slow: 26
+    name: MACD_F10_S26_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S28_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S28_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 11
+      slow: 28
+    name: MACD_F10_S28_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S28_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S28_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 7
+      slow: 28
+    name: MACD_F10_S28_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F10_S28_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F10_S28_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 10
+      signal: 9
+      slow: 28
+    name: MACD_F10_S28_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S24_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S24_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 11
+      slow: 24
+    name: MACD_F12_S24_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S24_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S24_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 7
+      slow: 24
+    name: MACD_F12_S24_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S24_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S24_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 9
+      slow: 24
+    name: MACD_F12_S24_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S26_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S26_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 11
+      slow: 26
+    name: MACD_F12_S26_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S26_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S26_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 7
+      slow: 26
+    name: MACD_F12_S26_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S26_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S26_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 9
+      slow: 26
+    name: MACD_F12_S26_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S28_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S28_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 11
+      slow: 28
+    name: MACD_F12_S28_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S28_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S28_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 7
+      slow: 28
+    name: MACD_F12_S28_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F12_S28_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F12_S28_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 12
+      signal: 9
+      slow: 28
+    name: MACD_F12_S28_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S24_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S24_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 11
+      slow: 24
+    name: MACD_F14_S24_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S24_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S24_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 7
+      slow: 24
+    name: MACD_F14_S24_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S24_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S24_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 9
+      slow: 24
+    name: MACD_F14_S24_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S26_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S26_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 11
+      slow: 26
+    name: MACD_F14_S26_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S26_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S26_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 7
+      slow: 26
+    name: MACD_F14_S26_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S26_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S26_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 9
+      slow: 26
+    name: MACD_F14_S26_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S28_Sig11:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S28_Sig11'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 11
+      slow: 28
+    name: MACD_F14_S28_Sig11
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S28_Sig7:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S28_Sig7'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 7
+      slow: 28
+    name: MACD_F14_S28_Sig7
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_macd_MACD_F14_S28_Sig9:
+    asset_class: commodity
+    description: 'MACD single-indicator test: MACD_F14_S28_Sig9'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: true
+      fast: 14
+      signal: 9
+      slow: 28
+    name: MACD_F14_S28_Sig9
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - MACDAboveSignal
+      buy_logic: AND
+      sell_conditions:
+      - MACDBelowSignal
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.01_Max0.15:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.01_Max0.15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.01_Max0.15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.15
+      step: 0.01
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.01_Max0.2:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.01_Max0.2'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.01_Max0.2
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.2
+      step: 0.01
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.01_Max0.25:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.01_Max0.25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.01_Max0.25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.25
+      step: 0.01
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.02_Max0.15:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.02_Max0.15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.02_Max0.15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.15
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.02_Max0.2:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.02_Max0.2'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.02_Max0.2
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.02_Max0.25:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.02_Max0.25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.02_Max0.25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.25
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.03_Max0.15:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.03_Max0.15'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.03_Max0.15
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.15
+      step: 0.03
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.03_Max0.2:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.03_Max0.2'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.03_Max0.2
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.2
+      step: 0.03
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  step1_psar_PSAR_AF0.03_Max0.25:
+    asset_class: commodity
+    description: 'PSAR single-indicator test: PSAR_AF0.03_Max0.25'
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+    name: PSAR_AF0.03_Max0.25
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: true
+      max_step: 0.25
+      step: 0.03
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 4.0
+      stop_loss_pct: 4.0
+      take_profit_pct: 8.0
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PSARTrendUp
+      buy_logic: AND
+      sell_conditions:
+      - PSARTrendDown
+      sell_logic: AND
+    symbols:
+    - '{symbol}'
+    timeframes:
+    - 1d
+  strategy_01:
+    asset_class: crypto
+    description: All conditions + Chikou confirmations, exit on TK cross down
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Full Confirmation TK Exit default with 3% SL
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 3.0
+      stop_loss_pct: 3.0
+      take_profit_pct: null
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - BTC/USDT
+    timeframes:
+    - 4h
+    - 1d
+  strategy_02:
+    asset_class: crypto
+    description: All conditions + Chikou confirmations, exit on TK cross down
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 22
+      senkou_b_period: 56
+      senkou_offset: 26
+      tenkan_period: 11
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Full Confirmation TK Exit modified with 3% SL
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 3.0
+      stop_loss_pct: 3.0
+      take_profit_pct: null
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - BTC/USDT
+    timeframes:
+    - 4h
+    - 1d
+  strategy_03_SL-3:
+    asset_class: crypto
+    description: All conditions + Chikou confirmations, exit on TK cross down
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Full Confirmation TK Exit SL 3%
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 5.0
+      stop_loss_pct: 5.0
+      take_profit_pct: null
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - BTC/USDT
+    timeframes:
+    - 4h
+    - 1d
+  strategy_04_SL-4_90:
+    asset_class: crypto
+    description: All conditions + Chikou confirmations, exit on TK cross down
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Full Confirmation TK Exit SL 4% with position size 90%
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 90.0
+      risk_per_trade_pct: 5.0
+      stop_loss_pct: 4.0
+      take_profit_pct: null
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - BTC/USDT
+    timeframes:
+    - 4h
+    - 1d
+  strategy_05_SL-3_90:
+    asset_class: crypto
+    description: All conditions + Chikou confirmations, exit on TK cross down
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 26
+      kijun_period: 26
+      senkou_b_period: 52
+      senkou_offset: 26
+      tenkan_period: 9
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Full Confirmation TK Exit SL 3% with position size 90%
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 90.0
+      risk_per_trade_pct: 5.0
+      stop_loss_pct: 5.0
+      take_profit_pct: null
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - BTC/USDT
+    timeframes:
+    - 4h
+    - 1d
+  strategy_06_modifd:
+    asset_class: crypto
+    description: All conditions + Chikou confirmations, exit on TK cross down
+    enabled: true
+    ichimoku_parameters:
+      chikou_offset: 20
+      kijun_period: 20
+      senkou_b_period: 48
+      senkou_offset: 20
+      tenkan_period: 7
+    macd_parameters:
+      enabled: false
+      fast: 12
+      signal: 9
+      slow: 26
+    name: Full Confirmation TK Exit with modified parameters
+    position_sizing:
+      fixed_size: 1000
+      method: fixed
+    psar_parameters:
+      enabled: false
+      max_step: 0.2
+      step: 0.02
+    risk_management:
+      close_on_sell_signal: true
+      max_position_size_pct: 100.0
+      risk_per_trade_pct: 5.0
+      stop_loss_pct: 5.0
+      take_profit_pct: null
+      trailing_stop: false
+    signal_conditions:
+      buy_conditions:
+      - PriceAboveCloud
+      - TenkanAboveKijun
+      - SpanAaboveSpanB
+      - ChikouAboveCloud
+      - ChikouAbovePrice
+      buy_logic: AND
+      sell_conditions:
+      - TenkanBelowKijun
+      sell_logic: AND
+    symbols:
+    - BTC/USDT
+    timeframes:
+    - 4h
+    - 1d

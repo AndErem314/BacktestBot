@@ -14,10 +14,11 @@ class StrategyConfig:
     name: str
     asset_class: str  # 'crypto' or 'commodity'
     timeframe: str  # '1d' or '4h' or 'both'
-    ichimoku_parameters: Dict[str, int]  # tenkan_period, kijun_period, etc.
-    signal_conditions: Dict[str, Any]  # buy_conditions, sell_conditions, logic
-    risk_management: Dict[str, Any]  # stop_loss_pct, take_profit_pct, etc.
-    position_sizing: Dict[str, Any]  # method, fixed_size, etc.
+    ichimoku_parameters: Dict[str, int] = field(default_factory=dict)  # tenkan_period, kijun_period, etc.
+    strategy_parameters: Dict[str, Any] = field(default_factory=dict)  # Generic strategy params (HMA, RSI, LR, etc.)
+    signal_conditions: Dict[str, Any] = field(default_factory=dict)  # buy_conditions, sell_conditions, logic
+    risk_management: Dict[str, Any] = field(default_factory=dict)  # stop_loss_pct, take_profit_pct, etc.
+    position_sizing: Dict[str, Any] = field(default_factory=dict)  # method, fixed_size, etc.
     description: str = ""
     enabled: bool = True
     symbols: List[str] = field(default_factory=list)

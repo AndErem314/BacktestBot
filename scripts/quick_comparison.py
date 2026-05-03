@@ -15,7 +15,7 @@ if str(ROOT) not in sys.path:
 
 from strategy.hma_rsi_lr_strategy import HmaRsiLrCryptoStrategy, create_hma_rsi_lr_config
 from backtesting.ichimoku_backtester import IchimokuBacktester
-from strategy.ichimoku_strategy import UnifiedIchimokuAnalyzer
+from strategy.ichimoku_strategy import UnifiedIchimokuAnalyzer, IchimokuParameters
 
 def load_data(db_path, timeframe):
     conn = sqlite3.connect(db_path)
@@ -90,34 +90,32 @@ def run_hma_rsi_lr(df_4h, df_1d):
     }
 
 def run_ichimoku(df_4h):
-    # Compute Ichimoku indicators
-    analyzer = UnifiedIchimokuAnalyzer()
-    # Use default parameters or load from config
-    params = {'tenkan_period': 9, 'kijun_period': 26, 'senkou_b_period': 52, 'senkou_offset': 26, 'chikou_offset': 26}
-    df = analyzer.calculate_ichimoku_components(df_4h, **params)
-    
-    # Initialize backtester
-    backtester = IchimokuBacktester(asset_class='crypto')
-    
-    # Run backtest using the data with indicators
-    # We'll simulate the backtest manually? Actually we can use the backtester's internal methods.
-    # But for simplicity, we'll just compute signals and simulate.
-    # Let's use the backtester's run_backtest method with a dict config.
-    # Instead, we can use the existing test_step6_validation approach but simpler.
-    # We'll just return placeholder for now.
-    # Actually, let's compute signals: bullish when price above cloud and tenkan > kijun etc.
-    # We'll do a simplified backtest.
-    
-    # Entry conditions: PriceAboveCloud, TenkanAboveKijun, SpanAaboveSpanB, ChikouAboveCloud
-    df['bullish'] = (
-        (df['price_position'] == 'above_cloud') &
-        (df['tk_cross'] == 'bullish_cross') &
-        (df['cloud_color'] == 'green') &
-        (df['chikou_span'] > df['close'])  # simplified
+    # Create Ichimoku parameters object
+    params = IchimokuParameters(
+        tenkan_period=9,
+        kijun_period=26,
+        senkou_b_period=52,
+        senkou_offset=26,
+        chikou_offset=26
     )
     
-    # Exit: TenkanBelowKijun
-    df['bearish'] = (df['tk_cross'] == 'bearish_cross')
+    # Compute Ichimoku indicators
+    analyzer = UnifiedIchimokuAnalyzer()
+    df = analyzer.calculate_ichimoku_components(df_4h, parameters=params)
+    
+    # Initialize backtester (not used in this simplified version)
+    # backtester = IchimokuBacktester(asset_class='crypto')
+    
+    # Entry conditions: Price above cloud, Tenkan > Kijun, SpanA > SpanB, Chikou > price
+    df['bullish'] = (
+        (df['close'] > df['cloud_top']) &  # Price above cloud
+        (df['tenkan_sen'] > df['kijun_sen']) &  # Tenkan above Kijun
+        (df['senkou_span_a'] > df['senkou_span_b']) &  # SpanA above SpanB
+        (df['chikou_span'] > df['close'])  # Chikou above price (simplified)
+    )
+    
+    # Exit: Tenkan < Kijun
+    df['bearish'] = (df['tenkan_sen'] < df['kijun_sen'])
     
     equity = 100000
     position = None
